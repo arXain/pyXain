@@ -1,33 +1,29 @@
-**A quick install manual**
+**Getting Started**
 
 Make sure you have the following packages installed on a python3 environment
 * ipfsapi
 * flask
 * requests
 
-in arXain/node_client/pyXain run
+Using anaconda you can do this with
+```
+conda create -n pyxain python=3.6
+source activate pyxain
+pip install flask requests ipfsapi
+```
+
+Then in the pyXain/ directory, run
 
 ```
 pip install --editable .
-```
-
-to install the pyXain module.
-
-in arXain/node_client/node run
-
-```
-pip install --editable .
-export FLASK_APP=node
+export FLASK_APP=pyxain.api
 export FLASK_DEBUG=true
-```
-
-to start the local server, run
-
-```
 flask run
 ```
 
-You also must run an ipfs daemon in a separate terminal
+to install the pyxain package and run the api server at `localhost:5000`.
+
+You also must run have an ipfs daemon running in a separate terminal
 
 ```
 ipfs daemon
@@ -36,3 +32,8 @@ ipfs daemon
 You can now view the landing page on (http:///127.0.0.1:5000)
 
 Note: every time you open a new terminal session and want to run the node, you need to enter both of the export statements.
+
+**Testing**
+
+All code should be tested and placed in the pyXain/tests/ directory in their respective files. Each module
+has its own test module. 
