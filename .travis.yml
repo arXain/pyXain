@@ -30,7 +30,7 @@ install:
     - sleep 5
 
 script:
-    - nosetests pyXain/tests/ --with-coverage --cover-package=pyxain --verbose
+    - nosetests tests/ --with-coverage --cover-package=pyxain --verbose
 
 after_success:
     - coveralls
