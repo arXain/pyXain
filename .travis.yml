@@ -1,0 +1,37 @@
+language: python
+python:
+    - "3.6"
+install:
+    - sudo apt-get update
+    # conda install
+    - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    - bash miniconda.sh -b -p $HOME/miniconda
+    - export PATH="$HOME/miniconda/bin:$PATH"
+    - hash -r
+    - conda config --set always_yes yes --set changeps1 no
+    - conda update -q conda
+    - conda info -a
+    # download and install ipfs and return to home directory
+    - wget https://dist.ipfs.io/go-ipfs/v0.4.13/go-ipfs_v0.4.13_linux-amd64.tar.gz
+    - tar xvfz go-ipfs_v0.4.13_linux-amd64.tar.gz
+    - export PATH=$PATH:$PWD/go-ipfs/
+    - ipfs init
+    # create env and install dependencies
+    - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION nose pip
+    - source activate test-environment
+    - pip install coveralls ipfsapi flask requests
+    # get to pyXain
+    - cd pyXain
+    - pip install --editable .
+    # set env variables
+    - export FLASK_APP=pyxain.api
+    - export FLASK_DEBUG=true
+    # run ipfs daemon
+    - ipfs daemon &
+    - sleep 5
+
+script:
+    - nosetests node_client/pyXain/test/ --with-coverage --cover-package=pyXain --verbose
+
+after_success:
+    - coveralls
