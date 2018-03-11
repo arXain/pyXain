@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/arXain/pyXain.svg?branch=master)](https://travis-ci.org/arXain/pyXain)
+[![Coverage Status](https://coveralls.io/repos/github/arXain/pyXain/badge.svg?branch=master)](https://coveralls.io/github/arXain/pyXain?branch=master)
+
 **Getting Started**
 
 Make sure you have the following packages installed on a python3 environment
@@ -36,4 +39,4 @@ Note: every time you open a new terminal session and want to run the node, you n
 **Testing**
 
 All code should be tested and placed in the pyXain/tests/ directory in their respective files. Each module
-has its own test module. 
+has its own test module.
