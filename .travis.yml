@@ -20,8 +20,7 @@ install:
     - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION nose pip
     - source activate test-environment
     - pip install coveralls ipfsapi flask requests
-    # get to pyXain
-    - cd pyXain
+    # install the pyxain package
     - pip install --editable .
     # set env variables
     - export FLASK_APP=pyxain.api
@@ -31,7 +30,7 @@ install:
     - sleep 5
 
 script:
-    - nosetests node_client/pyXain/test/ --with-coverage --cover-package=pyXain --verbose
+    - nosetests pyXain/tests/ --with-coverage --cover-package=pyxain --verbose
 
 after_success:
     - coveralls
