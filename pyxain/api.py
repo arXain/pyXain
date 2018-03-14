@@ -25,7 +25,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 @app.route('/')
 def show_index():
-    return render_template('index.html')
+    return 'pyXain API running!'
 
 @app.route('/init/arxain', methods=["GET"])
 def init_arxain():
