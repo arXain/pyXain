@@ -2,6 +2,7 @@ import unittest
 import os
 import json
 import shutil
+import io
 from pyxain import api
 
 class TestApi(unittest.TestCase):
@@ -145,5 +146,53 @@ class TestPyxain(TestApi):
                         paper_id='test_paper',\
                         comment_directory=os.path.join(curr_dir, 'test-empty'))
         response = self.test_api.get('/submit/comment', query_string=payload)
+        json_response = json.loads(response.get_data(as_text=True))
+        self.assertEquals(json_response['Success'], False)
+
+    def test_pin_manuscript(self):
+        """api: `/pin/manuscript`"""
+        response = self.test_api.get('/pin/manuscript')
+        self.assertEquals(response.get_data(as_text=True), 'reserved for future use')
+
+    def test_upload_file(self):
+        """api: `/upload/file`"""
+
+        # test pdf
+        data = dict(paper=(io.BytesIO(b'testing123'), 'testPaper.pdf'))
+        response = self.test_api.post(
+            '/upload/file', data=data,
+            content_type='multipart/form-data'
+            )
+        self.assertValid(response)
+        json_response = json.loads(response.get_data(as_text=True))
+        self.assertEquals(json_response['Success'], True)
+
+        # test txt
+        data = dict(paper=(io.BytesIO(b'testing123'), 'testPaper.txt'))
+        response = self.test_api.post(
+            '/upload/file', data=data,
+            content_type='multipart/form-data'
+            )
+        self.assertValid(response)
+        json_response = json.loads(response.get_data(as_text=True))
+        self.assertEquals(json_response['Success'], True)
+
+        #test json
+        data = dict(paper=(io.BytesIO(b'testing123'), 'testPaper.json'))
+        response = self.test_api.post(
+            '/upload/file', data=data,
+            content_type='multipart/form-data'
+            )
+        self.assertValid(response)
+        json_response = json.loads(response.get_data(as_text=True))
+        self.assertEquals(json_response['Success'], True)
+
+        # test html refusal
+        data = dict(paper=(io.BytesIO(b'testing123'), 'testPaper.html'))
+        response = self.test_api.post(
+            '/upload/file', data=data,
+            content_type='multipart/form-data'
+            )
+        self.assertValid(response)
         json_response = json.loads(response.get_data(as_text=True))
         self.assertEquals(json_response['Success'], False)
